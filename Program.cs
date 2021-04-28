@@ -17,7 +17,8 @@ namespace Demo.JsonSchema
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 SchemaIdGenerationHandling = SchemaIdGenerationHandling.TypeName
             };
-            var schema1 = generator.Generate(typeof(Person));
+            var schema1 = generator.Generate(typeof(v1.Person));
+            Console.WriteLine(schema1);
 
             var schemaJson = @"{
   '$id': 'Person',
@@ -30,15 +31,17 @@ namespace Demo.JsonSchema
       ]
     },
     'age': {
-      'type': 'integer'
+      'type': 'integer',
+      'null'
     }
   }
 }";
+
             var schema = JSchema.Parse(schemaJson);
             Console.WriteLine("Person Schema:");
             Console.WriteLine(schema);
 
-            var person = new Person {Name = "Yoda", City = "Degoba"};
+            var person = new v2.Person {Name = "Yoda", City = "Degoba"};
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
             var json = JsonConvert.SerializeObject(person, Formatting.Indented, settings);
             Console.WriteLine("\nPerson JSON:");
